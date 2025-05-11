@@ -53,10 +53,15 @@ public class Lox {
     static void run(String script) {
         var scanner = new Scanner(script);
         var tokens = scanner.scanTokens();
-        
-        for (var token : tokens) {
-            System.out.println(token);
+        var parser = new Parser(tokens);
+        Expr expression = parser.parse();
+
+        if (hadError) {
+            // stop if there was a syntax error
+            return;
         }
+
+        System.out.println(new AstPrinter().print(expression));
     }
 
     static void error(int line, String message) {

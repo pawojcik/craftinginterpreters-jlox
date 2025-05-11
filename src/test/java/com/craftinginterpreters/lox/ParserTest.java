@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class ParserTest {
         Assertions.assertEquals("hello world", exp.value());
     }
 
-//    @Test
+//        @Test
         void should_parse_identifier() {
         // given
         var token = new Token(TokenType.IDENTIFIER, "not important", "foo", 0);
@@ -60,7 +61,7 @@ public class ParserTest {
         var parser = new Parser(tokens(left, operator, right));
 
         // when
-        var exp = new ExprHelper(parser.expression());
+        var exp = new ExprHelper(parser.parse());
 
         // then
         Assertions.assertTrue(exp.isBinary());
@@ -78,7 +79,7 @@ public class ParserTest {
         var parser = new Parser(tokens(left, operator, right));
 
         // when
-        var exp = new ExprHelper(parser.expression());
+        var exp = new ExprHelper(parser.parse());
 
         // then
         Assertions.assertTrue(exp.isBinary());
@@ -98,7 +99,7 @@ public class ParserTest {
         var parser = new Parser(tokens(eqLeft, eqOp, cmpLeft, cmpOp, cmpRight));
 
         // when
-        var exp = new ExprHelper(parser.expression());
+        var exp = new ExprHelper(parser.parse());
 
         // then
         Assertions.assertTrue(exp.isBinary());
@@ -108,6 +109,26 @@ public class ParserTest {
         Assertions.assertEquals(TokenType.GREATER, exp.right().operatorType());
         Assertions.assertEquals("b", exp.right().left().value());
         Assertions.assertEquals("c", exp.right().right().value());
+    }
+
+    @Test
+    void should_parse_series() {
+        // given
+        var tokens = tokens(
+          new Token(TokenType.NUMBER, "1", 1, 0),
+          new Token(TokenType.COMMA, ",", null, 0),
+          new Token(TokenType.NUMBER, "2", 2, 0),
+          new Token(TokenType.COMMA, ",", null, 0),
+          new Token(TokenType.NUMBER, "3", 3, 0)
+        );
+        var parser = new Parser(tokens);
+
+        // when
+        var exp = new ExprHelper(parser.parse());
+
+        // then
+        Assertions.assertTrue(exp.isSeries());
+        Assertions.assertEquals(3, exp.count());
     }
 
     private List<Token> tokens(Token ...tokens) {
@@ -158,6 +179,18 @@ public class ParserTest {
                 return null;
             }
             return new ExprHelper(((Expr.Binary) exp).right);
+        }
+
+        public boolean isSeries() {
+            return exp instanceof Expr.Series;
+        }
+
+        public int count() {
+            if (!isSeries()) {
+                throw new IllegalStateException("Expression is not a Series");
+            }
+
+            return ((Expr.Series) exp).expressions.size();
         }
     }
 

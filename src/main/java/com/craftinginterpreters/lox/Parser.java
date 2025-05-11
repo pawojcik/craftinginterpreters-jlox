@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.craftinginterpreters.lox.TokenType.*;
@@ -12,8 +13,35 @@ public class Parser {
         this.tokens = tokens;
     }
 
+    Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError e) {
+            return null;
+        }
+    }
+
     Expr expression() {
-        return equality();
+        return series();
+    }
+
+    private Expr series() {
+        Expr expr = equality();
+
+        if (peek().type != COMMA) {
+            // not a series, just return the equality expression
+            return expr;
+        }
+
+        List<Expr> expressions = new ArrayList<>() {{
+            add(expr);
+        }};
+
+        while (match(COMMA)) {
+            expressions.add(equality());
+        }
+
+        return new Expr.Series(expressions);
     }
 
     private Expr equality() {
@@ -95,7 +123,7 @@ public class Parser {
             return new Expr.Grouping(expr);
         }
 
-        throw new IllegalStateException();
+        throw error(peek(), "Expect expression.");
     }
 
     private Token consume(TokenType token, String message) {
@@ -109,6 +137,30 @@ public class Parser {
     private ParseError error(Token token, String message) {
         Lox.error(token, message);
         return new ParseError();
+    }
+
+    private void synchronize() {
+        advance();
+
+        while (!isAtEnd()) {
+            // if we just passed a semicolon, we should be at the start of the next statement
+            if (previous().type == SEMICOLON) return;
+
+            // these indicate the start of a statement
+            switch (peek().type) {
+                case CLASS:
+                case FUN:
+                case VAR:
+                case FOR:
+                case IF:
+                case WHILE:
+                case PRINT:
+                case RETURN:
+                    return;
+            }
+
+            advance();
+        }
     }
 
     private boolean match(TokenType ...types) {

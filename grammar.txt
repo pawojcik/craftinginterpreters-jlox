@@ -1,3 +1,7 @@
+series -> expression
+
+series -> expression "," series
+
 expression -> literal | unary | binary | grouping;
 
 literal -> NUMBER | STRING | "true" | "false" | "nil";
