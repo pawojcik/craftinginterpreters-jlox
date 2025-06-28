@@ -30,6 +30,11 @@ class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        return expr.name.lexeme;
+    }
+
+    @Override
     public String visitSeriesExpr(Expr.Series expr) {
         return parenthesize("series", expr.expressions.toArray(new Expr[0]));
     }

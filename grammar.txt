@@ -1,4 +1,8 @@
-program -> statement* EOF;
+program -> declaration* EOF;
+
+declaration -> varDecl | statement;
+
+varDecl -> "var" IDENTIFIER ( "=" expression )? ";";
 
 statement -> exprStmt | printStmt;
 
@@ -10,9 +14,9 @@ series -> expression
 
 series -> expression "," series
 
-expression -> literal | unary | binary | grouping;
+expression -> primary | unary | binary | grouping;
 
-literal -> NUMBER | STRING | "true" | "false" | "nil";
+primary -> NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER; ???
 
 grouping -> "(" expression ")";
 

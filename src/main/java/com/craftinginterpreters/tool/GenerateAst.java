@@ -21,12 +21,14 @@ public class GenerateAst {
                 "Grouping : Expr expression",
                 "Literal : Object value",
                 "Unary : Token operator, Expr right",
+                "Variable : Token name",
                 "Series : List<Expr> expressions"
         ));
 
         defineAst(outputDir, "Stmt", List.of(
                 "Expression : Expr expression",
-                "Print : Expr expression"
+                "Print : Expr expression",
+                "Var : Token name, Expr initializer"
         ));
     }
 
