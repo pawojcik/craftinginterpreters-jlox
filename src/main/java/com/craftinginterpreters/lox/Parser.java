@@ -66,27 +66,47 @@ public class Parser {
     }
 
     Expr expression() {
-        return series();
+        return assignment();
     }
 
-    private Expr series() {
+    private Expr assignment() {
         Expr expr = equality();
 
-        if (peek().type != COMMA) {
-            // not a series, just return the equality expression
-            return expr;
+        if (match(EQUAL)) {
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable) {
+                Token name = ((Expr.Variable)expr).name;
+                return new Expr.Assign(name, value);
+            }
+
+            // why don't we go try to synchronize here?
+            error(equals, "Invalid assignment target.");
         }
 
-        List<Expr> expressions = new ArrayList<>() {{
-            add(expr);
-        }};
-
-        while (match(COMMA)) {
-            expressions.add(equality());
-        }
-
-        return new Expr.Series(expressions);
+        return expr;
     }
+
+    // TODO: figure out how to use series
+//    private Expr series() {
+//        Expr expr = equality();
+//
+//        if (peek().type != COMMA) {
+//            // not a series, just return the equality expression
+//            return expr;
+//        }
+//
+//        List<Expr> expressions = new ArrayList<>() {{
+//            add(expr);
+//        }};
+//
+//        while (match(COMMA)) {
+//            expressions.add(equality());
+//        }
+//
+//        return new Expr.Series(expressions);
+//    }
 
     private Expr equality() {
         Expr expr = comparison();

@@ -61,7 +61,7 @@ public class ParserTest {
         var parser = new Parser(tokens(left, operator, right));
 
         // when
-        var exp = new ExprHelper(parser.parse());
+        var exp = new ExprHelper(parser.expression());
 
         // then
         Assertions.assertTrue(exp.isBinary());
@@ -79,7 +79,7 @@ public class ParserTest {
         var parser = new Parser(tokens(left, operator, right));
 
         // when
-        var exp = new ExprHelper(parser.parse());
+        var exp = new ExprHelper(parser.expression());
 
         // then
         Assertions.assertTrue(exp.isBinary());
@@ -99,7 +99,7 @@ public class ParserTest {
         var parser = new Parser(tokens(eqLeft, eqOp, cmpLeft, cmpOp, cmpRight));
 
         // when
-        var exp = new ExprHelper(parser.parse());
+        var exp = new ExprHelper(parser.expression());
 
         // then
         Assertions.assertTrue(exp.isBinary());
@@ -124,7 +124,7 @@ public class ParserTest {
         var parser = new Parser(tokens);
 
         // when
-        var exp = new ExprHelper(parser.parse());
+        var exp = new ExprHelper(parser.expression());
 
         // then
         Assertions.assertTrue(exp.isSeries());
