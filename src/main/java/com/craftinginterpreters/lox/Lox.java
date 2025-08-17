@@ -2,10 +2,7 @@ package com.craftinginterpreters.lox;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,7 +31,7 @@ public class Lox {
     }
 
     static void runFile(String fileName) throws IOException {
-        run(Files.readString(Paths.get(fileName), Charset.defaultCharset()));
+        runScript(Files.readString(Paths.get(fileName), Charset.defaultCharset()));
         if (hadError) {
             System.exit(65);
         }
@@ -51,16 +48,30 @@ public class Lox {
             if (line == null) {
                 break;
             }
-            run(line);
-            hadError = false;
+            var statements = parse(line);
+            if (hadError || statements.isEmpty()) {
+                hadError = false;
+                continue;
+            }
+
+            var s = statements.getFirst();
+            if (s instanceof Stmt.Expression) {
+                System.out.println(((Stmt.Expression) s).expression.accept(interpreter));
+            } else {
+                s.accept(interpreter);
+            }
         }
     }
 
-    static void run(String script) {
+    static List<Stmt> parse(String script) {
         var scanner = new Scanner(script);
         var tokens = scanner.scanTokens();
         var parser = new Parser(tokens);
-        List<Stmt> statements = parser.parse();
+        return parser.parse();
+    }
+
+    static void runScript(String script) {
+        var statements = parse(script);
 
         if (hadError) {
             // stop if there was a syntax error
