@@ -29,7 +29,8 @@ public class ScriptTests {
         return Stream.of(
                 Arguments.of("/basic.lox"),
                 Arguments.of("/logic.lox"),
-                Arguments.of("/if.lox")
+                Arguments.of("/if.lox"),
+                Arguments.of("/while.lox")
                 // add more test cases here
         );
     }
