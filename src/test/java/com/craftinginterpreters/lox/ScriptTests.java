@@ -27,9 +27,10 @@ public class ScriptTests {
 
     static Stream<Arguments> scriptProvider() {
         return Stream.of(
-            Arguments.of("/basic.lox"),
-                Arguments.of("/logic.lox")
-            // add more test cases here
+                Arguments.of("/basic.lox"),
+                Arguments.of("/logic.lox"),
+                Arguments.of("/if.lox")
+                // add more test cases here
         );
     }
 
