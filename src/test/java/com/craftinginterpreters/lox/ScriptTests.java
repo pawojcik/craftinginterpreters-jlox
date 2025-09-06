@@ -32,7 +32,9 @@ public class ScriptTests {
                 Arguments.of("/if.lox"),
                 Arguments.of("/while.lox"),
                 Arguments.of("/for.lox"),
-                Arguments.of("/fib.lox")
+                Arguments.of("/fib.lox"),
+                Arguments.of("/fn_hi.lox"),
+                Arguments.of("/fn_fib.lox")
                 // add more test cases here
         );
     }
