@@ -34,7 +34,8 @@ public class ScriptTests {
                 Arguments.of("/for.lox"),
                 Arguments.of("/fib.lox"),
                 Arguments.of("/fn_hi.lox"),
-                Arguments.of("/fn_fib.lox")
+                Arguments.of("/fn_fib.lox"),
+                Arguments.of("/fn_closure.lox")
                 // add more test cases here
         );
     }
