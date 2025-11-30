@@ -78,6 +78,14 @@ public class Lox {
             return;
         }
 
+        Resolver resolver = new Resolver(interpreter);
+        resolver.resolve(statements);
+
+        if (hadError) {
+            // stop if there's a resolution error
+            return;
+        }
+
         interpreter.interpret(statements);
     }
 
