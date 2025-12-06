@@ -1,6 +1,6 @@
-fun scope(a) {
-    var a = 1;
-    return a;
-}
+// shadowing only works in global scope
+var a = 1;
+print a;
 
-print scope(123);
+var a = 2;
+print a;
