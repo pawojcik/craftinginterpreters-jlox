@@ -37,7 +37,8 @@ public class ScriptTests {
                 Arguments.of("/fn_fib.lox"),
                 Arguments.of("/fn_closure.lox"),
                 Arguments.of("/fn_shadow.lox"),
-                Arguments.of("/captured_declaration.lox")
+                Arguments.of("/captured_declaration.lox"),
+                Arguments.of("/class_print.lox")
                 // add more test cases here
         );
     }
