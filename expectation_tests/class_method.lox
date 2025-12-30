@@ -1,0 +1,8 @@
+class Foo {
+    bar() {
+        return "function without this";
+    }
+}
+var foo = Foo();
+
+print foo.bar();
