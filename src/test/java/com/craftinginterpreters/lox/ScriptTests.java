@@ -38,7 +38,9 @@ public class ScriptTests {
                 Arguments.of("/fn_closure.lox"),
                 Arguments.of("/fn_shadow.lox"),
                 Arguments.of("/captured_declaration.lox"),
-                Arguments.of("/class_print.lox")
+                Arguments.of("/class_print.lox"),
+                Arguments.of("/class_instance.lox"),
+                Arguments.of("/class_field.lox")
                 // add more test cases here
         );
     }
@@ -60,7 +62,8 @@ public class ScriptTests {
             out.flush();
             return content.toString();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Assertions.fail(e);
+            return null;
         } finally {
             System.setOut(originalOut);
         }

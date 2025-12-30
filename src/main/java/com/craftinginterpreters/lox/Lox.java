@@ -71,6 +71,10 @@ public class Lox {
     }
 
     static void runScript(String script) {
+        // reset errors
+        hadError = false;
+        hadRuntimeError = false;
+
         var statements = parse(script);
 
         if (hadError) {
