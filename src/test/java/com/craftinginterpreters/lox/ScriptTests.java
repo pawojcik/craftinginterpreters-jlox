@@ -1,7 +1,6 @@
 package com.craftinginterpreters.lox;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -45,6 +44,9 @@ public class ScriptTests {
         try (var content = new ByteArrayOutputStream(10 * 1024); var out = new PrintStream(content)) {
             System.setOut(out);
             Lox.runScript(script);
+            if (Lox.hadError || Lox.hadRuntimeError) {
+                Assertions.fail("The script failed with an error");
+            }
             out.flush();
             return content.toString();
         } catch (Exception e) {
