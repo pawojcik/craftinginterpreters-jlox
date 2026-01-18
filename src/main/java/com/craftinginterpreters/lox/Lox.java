@@ -64,6 +64,10 @@ public class Lox {
     }
 
     static List<Stmt> parse(String script) {
+        // reset errors
+        hadError = false;
+        hadRuntimeError = false;
+
         var scanner = new Scanner(script);
         var tokens = scanner.scanTokens();
         var parser = new Parser(tokens);
@@ -71,10 +75,6 @@ public class Lox {
     }
 
     static void runScript(String script) {
-        // reset errors
-        hadError = false;
-        hadRuntimeError = false;
-
         var statements = parse(script);
 
         if (hadError) {

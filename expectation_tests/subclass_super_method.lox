@@ -1,0 +1,15 @@
+class Foo {
+    cook() {
+        print "Cooking Foo";
+    }
+}
+
+class Bar < Foo {
+    cook() {
+        super.cook();
+        print "Cooking Bar now";
+    }
+}
+
+var baz = Bar();
+baz.cook();

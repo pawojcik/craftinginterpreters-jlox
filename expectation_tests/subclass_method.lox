@@ -1,0 +1,17 @@
+class Foo {
+
+    cook(x) {
+        return x * x;
+    }
+
+}
+
+class Bar < Foo {
+    grill() {
+        return "just grilling";
+    }
+}
+
+var baz = Bar();
+print baz.grill();
+print baz.cook(123);

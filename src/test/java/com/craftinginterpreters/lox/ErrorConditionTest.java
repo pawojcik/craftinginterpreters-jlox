@@ -34,4 +34,40 @@ public class ErrorConditionTest {
         Assertions.assertTrue(Lox.hadError);
     }
 
+    @Test
+    void super_is_not_available_outside_of_class() {
+        // given
+        String script = """
+        super.does_not_exist();
+        """;
+
+        // when
+        var statements = Lox.parse(script);
+        Assertions.assertFalse(Lox.hadError);
+        resolver.resolve(statements);
+
+        // then
+        Assertions.assertTrue(Lox.hadError);
+    }
+
+    @Test
+    void super_is_not_available_without_superclass() {
+        // given
+        String script = """
+        class Foo {
+            wrong() {
+                super.does_not_exist();
+            }
+        }
+        """;
+
+        // when
+        var statements = Lox.parse(script);
+        Assertions.assertFalse(Lox.hadError);
+        resolver.resolve(statements);
+
+        // then
+        Assertions.assertTrue(Lox.hadError);
+    }
+
 }

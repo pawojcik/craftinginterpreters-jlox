@@ -2,7 +2,7 @@ program -> declaration* EOF;
 
 declaration -> classDecl | funDecl | varDecl | statement;
 
-classDecl -> "class" IDENTIFIER "{" function* "}"
+classDecl -> "class" IDENTIFIER ( "<" IDENTIFIER )? "{" function* "}"
 
 funDecl -> "fun" function;
 
@@ -40,7 +40,7 @@ logic_or -> logic_and ("or" logic_and)*;`
 
 logic_and -> equality ("and" equality)*;
 
-primary -> NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER; ???
+primary -> NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER | "super" "." IDENTIFIER;
 
 grouping -> "(" expression ")";
 
